@@ -9,6 +9,7 @@ const {createContext, isLoggedIn} = require("./controllers/middleware")
 const AlumniRouter = require("./controllers/Alumni") // import Alumni Routes
 const BlogRouter = require("./controllers/Blog") // import Blog Routes
 const StudentRouter = require("./controllers/Student")
+const LoginRouter = require("./controllers/Login")
 
 
 //DESTRUCTURE ENV VARIABLES WITH DEFAULT VALUES
@@ -33,6 +34,7 @@ app.use("/todos", TodoRouter) // send all "/todos" request to TodoROuter
 app.use("/alumni", AlumniRouter) // send all "/alumni" request to AlumniROuter
 app.use("/blog", BlogRouter) // send all "/Blog" request to BlogROuter
 app.use("/student", StudentRouter) 
+app.use("/login", LoginRouter) 
 
 // APP LISTENER
 app.listen(PORT, () => log.green("SERVER STATUS", `Listening on port ${PORT}`))

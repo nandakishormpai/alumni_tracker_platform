@@ -29,12 +29,11 @@ const isLoggedIn = async (req, res, next) => {
       const token = req.headers.authorization.split(" ")[1]; //split the header and get the token
       if (token) {
         const payload = await jwt.verify(token, process.env.SECRET);
-        console.log(payload)
+        // console.log(payload)
         if (payload) {
-          console.log("Success");
+          // console.log("Success: ",payload);
           // store user data in request object
           req.user = payload;
-          console.log(payload)
           next();
         } else {
           res.status(400).json({ error: "token verification failed" });
@@ -58,12 +57,11 @@ const isAlumniLoggedIn = async (req, res, next) => {
       const token = req.headers.authorization.split(" ")[1]; //split the header and get the token
       if (token) {
         const payload = await jwt.verify(token, process.env.SECRET);
-        console.log(payload)
-        if (payload.user=="alumni") {
-          console.log("Success");
+        // console.log(payload)
+        if (payload.userType=="Alumni") {
+          console.log("Alumni Login Success");
           // store user data in request object
           req.user = payload;
-          console.log(payload)
           next();
         } else {
           res.status(400).json({ error: "token verification failed" });

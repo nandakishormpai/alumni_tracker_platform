@@ -77,44 +77,22 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Login route to verify a user and get a token
-router.post("/login", async (req, res) => {
-  const { Alumni } = req.context.models;
-  try {
-    // check if the user exists
-    const user = await Alumni.findOne({ email: req.body.email });
-    if (user) {
-      //check if password matches
-      const result = await bcrypt.compare(req.body.password, user.password);
-      if (result) {
-        // sign token and send it in response
-        console.log(SECRET)
-        const token = await jwt.sign({ email: user.email , user:"alumni"}, SECRET);
-        res.json({ token });
-      } else {
-        res.status(400).json({ error: "password doesn't match" });
-      }
-    } else {
-      res.status(400).json({ error: "Alumni doesn't exist" });
-    }
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
 
 
-// Login route to verify a user and get a token
+
+// Update route to update details
 router.post("/update", isLoggedIn, async (req, res) => {
+  const curUserId  = req.user.userId;
   const { Alumni } = req.context.models;
   try {
     // check if the user exists
-    const user = await Alumni.findOne({ email: req.body.email });
+    const user = await Alumni.findOne({userId: curUserId  });
     req.body.updated = Date.now()
     if (user) {
       //check if password matches
-      await Alumni.updateOne({ email: req.body.email }, req.body);
+      await Alumni.updateOne({userId: curUserId  }, req.body);
       // send updated user as response
-      const user = await Alumni.findOne({ email: req.body.email });
+      const user = await Alumni.findOne({userId: curUserId  });
       res.json(user);
     } else {
       res.status(400).json({ error: "Alumni doesn't exist" });
@@ -123,5 +101,6 @@ router.post("/update", isLoggedIn, async (req, res) => {
     res.status(400).json({ error });
   }
 });
+
 
 module.exports = router;

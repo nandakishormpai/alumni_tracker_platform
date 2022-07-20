@@ -1,30 +1,50 @@
 const {Schema, model} = require("../db/connection") // import Schema & model
-var extend = require('mongoose-schema-extend');
-const UserSchema = require('../models/User');
+const User = require('../models/User');
 // console.log(User)
 
 var start = new Date();
 var ymax = start.getFullYear();
 
 // Alumni Schema
+
+const  higherStudiesSchema = new Schema({
+    degree:{type:String},
+    university:{type:String},
+    yearGraduation:{type:Number, min: 1943, max: ymax},
+    subject:{type:String}
+})
+
+
+const workExperienceSchema = new Schema({
+    from:{type:Number, min: 1943, max: ymax},
+    to:{type:Number, min: 1943, max: ymax},
+    company:{type:String},
+    role:{type:String},
+    Contribution:{type:String}
+  });
+
+const publicationsSchema = new Schema({
+    domain:{type:String},
+    title:{type:String},
+    link:{type:String},
+    description:{type:String}
+})
+
 const AlumniSchema = new Schema({
-    higherStudies:[{
-        degree:{type:String},
-        university:{type:String},
-        yearGraduation:{type:Number, min: 1943, max: ymax},
-        subject:{type:String}
-    }],
-    workExperience:[{from:{type:Number, min: 1943, max: ymax},
-                    to:{type:Number, min: 1943, max: ymax},
-                    company:{type:String},
-                    role:{type:String},
-                    Contribution:{type:String}}],
-    publications:[{domain:{type:String},title:{type:String},link:{type:String},description:{type:String}}]})
+    higherStudies:{
+        type:[higherStudiesSchema],
+        default:null
+        
+    },
+    workExperience:{type: [workExperienceSchema],
+                    required:true},
+    publications:{type:[publicationsSchema],
+        default:null}})
 
 
 // Alumni model
 // const Alumni = model("Alumni", AlumniSchema)
-const User = model("User", UserSchema)
+// const User = model("User", UserSchema)
 const Alumni = User.discriminator("Alumni", AlumniSchema)
 
 module.exports = Alumni
