@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
             res.status(400).json({ error: "password doesn't match" });
             }
       } else {
-            res.status(400).json({ error: "Student doesn't exist" });
+            res.status(400).json({ error: "User doesn't exist" });
       }
     } catch (error) {
             res.status(400).json({ error });

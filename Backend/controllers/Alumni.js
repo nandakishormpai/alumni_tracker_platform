@@ -11,8 +11,8 @@ const { SECRET = "secret" } = process.env;
 
 
 // Department Wise Filtering included
-// http://localhost:4000/alumni/?department=CSE
-router.get("/", isLoggedIn, async (req, res) => {
+// http://localhost:4000/alumni/alumni_list?department=CSE
+router.get("/alumni_list", isLoggedIn, async (req, res) => {
   const { Alumni } = req.context.models;
   if(req.query.department){
     var dept  = req.query.department
@@ -31,6 +31,24 @@ router.get("/", isLoggedIn, async (req, res) => {
     );
   }
 });
+
+
+router.get("/alumni_details", isLoggedIn, async (req, res) => {
+  const { Alumni } = req.context.models;
+  if(req.query.userId){
+    var curUserId  = req.query.userId
+    console.log(req.query.userId)
+    console.log("User Id:",curUserId)
+    res.json(
+      await Alumni.findOne({userId:curUserId}).catch((error) =>
+        res.status(400).json({ error })
+      )
+    );
+  }
+
+});
+
+
 
 router.get("/filter",isLoggedIn,async(req,res)=>{
   const { Alumni }= req.context.models;

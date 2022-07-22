@@ -10,7 +10,7 @@ const router = Router(); // create router to create route bundle
 //DESTRUCTURE ENV VARIABLES WITH DEFAULTS
 const { SECRET = "secret" } = process.env;
 
-router.get("/", isLoggedIn, async (req, res) => {
+router.get("/student_list", isLoggedIn, async (req, res) => {
   const { Student } = req.context.models;
   if(req.query.department){
     var dept  = req.query.department
@@ -28,6 +28,21 @@ router.get("/", isLoggedIn, async (req, res) => {
       )
     );
   }
+});
+
+
+router.get("/student_details", isLoggedIn, async (req, res) => {
+  const { Student } = req.context.models;
+  if(req.query.userId){
+    var curUserId  = req.query.userId
+    console.log("User Id:",curUserId)
+    res.json(
+      await Student.findOne({userId:curUserId}).catch((error) =>
+        res.status(400).json({ error })
+      )
+    );
+  }
+
 });
 
 
