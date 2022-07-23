@@ -3,8 +3,8 @@ const express = require("express") // import express
 const morgan = require("morgan") //import morgan
 const {log} = require("mercedlogger") // import mercedlogger's log function
 const cors = require("cors") // import cors
-const UserRouter = require("./controllers/User") //import User Routes
-const TodoRouter = require("./controllers/Todo") // import Todo Routes
+// const UserRouter = require("./controllers/User") //import User Routes
+// const TodoRouter = require("./controllers/Todo") // import Todo Routes
 const {createContext, isLoggedIn} = require("./controllers/middleware")
 const AlumniRouter = require("./controllers/Alumni") // import Alumni Routes
 const BlogRouter = require("./controllers/Blog") // import Blog Routes
@@ -27,10 +27,10 @@ app.use(createContext) // create req.context
 
 // ROUTES AND ROUTES
 app.get("/", (req, res) => {
-    res.send("this is the test route to make sure server is working")
+    res.send("server is working")
 })
-app.use("/user", UserRouter) // send all "/user" requests to UserRouter for routing
-app.use("/todos", TodoRouter) // send all "/todos" request to TodoROuter
+// app.use("/user", UserRouter) // send all "/user" requests to UserRouter for routing
+// app.use("/todos", TodoRouter) // send all "/todos" request to TodoROuter
 app.use("/alumni", AlumniRouter) // send all "/alumni" request to AlumniROuter
 app.use("/blog", BlogRouter) // send all "/Blog" request to BlogROuter
 app.use("/student", StudentRouter) 
