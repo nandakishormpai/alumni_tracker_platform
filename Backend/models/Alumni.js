@@ -31,6 +31,7 @@ const publicationsSchema = new Schema({
 })
 
 const AlumniSchema = new Schema({
+    degree:{type: String,required: true},
     yearGraduation:{type:Number, min: 1943, max: ymax,required:true},
     higherStudies:{
         type:[higherStudiesSchema],
