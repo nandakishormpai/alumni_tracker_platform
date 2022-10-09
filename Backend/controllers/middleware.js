@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Todo = require("../models/Todo");
 const Blog = require("../models/Blog");
 const Alumni = require("../models/Alumni");
+const AlumniPending = require("../models/AlumniPending");
 const Student = require("../models/Student");
 
 // CREATE CONTEXT MIDDLEWARE
@@ -13,6 +14,7 @@ const createContext = (req, res, next) => {
     models: {
       Todo,
       Student,
+      AlumniPending,
       Alumni,
       Blog
     },

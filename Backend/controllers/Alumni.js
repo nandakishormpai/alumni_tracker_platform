@@ -50,7 +50,7 @@ router.get("/alumni_details", isLoggedIn, async (req, res) => {
 
 
 
-router.get("/filter",isLoggedIn,async(req,res)=>{
+router.post("/filter",isLoggedIn,async(req,res)=>{
   const { Alumni }= req.context.models;
   var query = {}
   if(req.body.department){
@@ -82,12 +82,12 @@ router.get("/filter",isLoggedIn,async(req,res)=>{
 
 // Signup route to create a new user
 router.post("/signup", async (req, res) => {
-  const { Alumni } = req.context.models;
+  const { AlumniPending } = req.context.models;
   try {
     // hash the password
     req.body.password = await bcrypt.hash(req.body.password, 10);
     // create a new user
-    const user = await Alumni.create(req.body);
+    const user = await AlumniPending.create(req.body);
     // send new user as response
     res.json(user);
   } catch (error) {
@@ -102,6 +102,7 @@ router.post("/signup", async (req, res) => {
 router.post("/update", isLoggedIn, async (req, res) => {
   const curUserId  = req.user.userId;
   const { Alumni } = req.context.models;
+  
   try {
     // check if the user exists
     const user = await Alumni.findOne({userId: curUserId  });
@@ -119,6 +120,28 @@ router.post("/update", isLoggedIn, async (req, res) => {
     res.status(400).json({ error });
   }
 });
+
+
+// For Developer only
+router.post("/delete", async (req, res) => {
+  try {
+    const curUserId  = req.body.userId;
+    const confirm = req.body.isDelete
+    if (confirm){
+      const { Alumni } = req.context.models;
+      const { Blog } = req.context.models;
+      await Blog.remove({userId: curUserId  });
+      await Alumni.remove({userId: curUserId  });
+      res.send("Deleted Successfully");
+    }
+    else{
+      res.send("Verify CONFIRM key")
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
 
 
 module.exports = router;
